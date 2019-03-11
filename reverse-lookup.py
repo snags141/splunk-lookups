@@ -3,7 +3,6 @@
 import csv, sys, random, json, urllib2
 
 """ 
-    Author: Daniel Harvey
     Date: 11/3/19
     Description: An adapter that takes CSV as input, performs a lookup to the operating
     system hostname resolution facilities, then returns the CSV results

@@ -6,7 +6,6 @@ import csv, sys, random, json, urllib2
     Date: 11/3/19
     Description: An adapter that takes CSV as input, performs a lookup to the operating
     system hostname resolution facilities, then returns the CSV results
-
 """
 
 # Return a random user agent
@@ -74,34 +73,45 @@ def rlookup(ip):
 
     if "country" in details:
         country = details["country"]
+    else:
+        country = "novalue"
 
     if "country_code" in details:
         country_code = details["country_code"]
+    else:
+        country_code = "novalue"
 
     if "region" in details:
         region = details["region"]
+    else:
+        region = "novalue"
 
     if "region_code" in details:
         region_code = details["region_code"]
+    else:
+        region_code = "novalue"
 
     if "city" in details:
         city = details["city"]
+    else:
+        city = "novalue"
 
     if "isp" in details:
         isp = details["isp"]
+    else:
+        isp = "novalue"
 
     if "org" in details:
         org = details["org"]
+    else:
+        org = "novalue"
 
     fields = [country, country_code, region, region_code, city, isp, org]
     return fields
 
 
 def main():
-
-    if len(sys.argv) != 9:
-        print "Usage: python external_lookup.py [ip field]"
-        sys.exit(1)
+    # Perform the lookup
 
     ipfield = sys.argv[1]
     countryfield = sys.argv[2]
@@ -111,6 +121,12 @@ def main():
     cityfield = sys.argv[6]
     ispfield = sys.argv[7]
     orgfield = sys.argv[8]
+
+    '''
+    if len(sys.argv) != 9:
+        print "Usage: python external_lookup.py [ip field]"
+        sys.exit(1)
+    '''
 
     infile = sys.stdin
     outfile = sys.stdout
@@ -124,13 +140,13 @@ def main():
         # Perform the lookup
         #fields = rlookup('13.107.64.24')
         fields = rlookup(result[ipfield])
-        result[countryfield] = fields["country"]
-        result[country_codefield] = fields["country_code"]
-        result[regionfield] = fields["region"]
-        result[region_codefield] = fields["region_code"]
-        result[cityfield] = fields["city"]
-        result[ispfield] = fields["isp"]
-        result[orgfield] = fields["org"]
+        result[countryfield] = fields[0]
+        result[country_codefield] = fields[1]
+        result[regionfield] = fields[2]
+        result[region_codefield] = fields[3]
+        result[cityfield] = fields[4]
+        result[ispfield] = fields[5]
+        result[orgfield] = fields[6]
 
         if result[countryfield] or result[country_codefield] or result[regionfield] or result[region_codefield] or result[cityfield] or result[ispfield] or result[orgfield]:
             w.writerow(result)
